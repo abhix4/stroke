@@ -1,3 +1,5 @@
+<img width="1837" height="957" alt="image" src="https://github.com/user-attachments/assets/7e8c2434-e444-407a-8760-9fe9579ba980" />
+
 # Stroke
 
 Animated SVGs drawn by hand.
