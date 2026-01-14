@@ -18,6 +18,7 @@ export default function SignatureCanvas() {
   const width = useRef(3.5);
 
   const [svgPaths, setSvgPaths] = useState<string[]>([]);
+  const [codeCopied, setCodeCopied] = useState<boolean>(false)
 
   
   /*  Canvas setup  */
@@ -117,10 +118,10 @@ export default function SignatureCanvas() {
       return d;
     });
 
-    const svgString = `<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg"><path d="${paths.join(' ')}" stroke="#000" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>`;
+    // const svgString = `<svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg"><path d="${paths.join(' ')}" stroke="#000" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>`;
       
-      navigator.clipboard.writeText(svgString);
-      setSvgPaths(paths);
+    //   navigator.clipboard.writeText(svgString);
+    //   setSvgPaths(paths);
 
     setSvgPaths(paths);
   };
@@ -135,18 +136,26 @@ export default function SignatureCanvas() {
   const copyFullComponent = async () => {
     const code = generateComponentCode(svgPaths);
     await navigator.clipboard.writeText(code);
+    setCodeCopied(true)
   };
+
+  useEffect(() => {
+    if(!setCodeCopied) return;
+    setTimeout(()=> {
+      setCodeCopied(false)
+    },2000)
+  },[codeCopied])
 
 
 
   return (
     <div className="p-6">
-      <div className="w-full max-w-4xl mx-auto mt-18">
+      <div className="w-full max-w-4xl mx-auto mt-8 md:mt-18">
         
           <div className="flex rounded-t-lg overflow-hidden">
           <button
             onClick={buildSvg}
-            className="flex-1 bg-[#FE9D36] text-white py-3 flex items-center justify-center gap-2"
+            className="flex-1 bg-[#FE9D36] text-white py-3 flex items-center justify-center gap-2 "
           >
             <Tangent size={18} />Animate 
           </button>
@@ -172,9 +181,8 @@ export default function SignatureCanvas() {
       
 
         <div className='bg-neutral-50 rounded-lg relative '>
-          <button className='absolute right-4 top-4 bg-[#FEF102] p-2 text-sm rounded-lg border cursor-pointer' onClick={copyFullComponent}>Copy code</button>
-          <SvgAnimated animatedPaths={svgPaths} key={svgPaths.join("|")}/>
-    
+          <button className='absolute right-4 top-4 bg-[#FEF102] p-2 text-sm rounded-lg shadow-sm shadow-black/10 ring-1 ring-black/10 cursor-pointer active:scale-99' onClick={copyFullComponent}>{codeCopied ? "code copied": "copy code"}</button>
+          <SvgAnimated animatedPaths={svgPaths} key={svgPaths.join("|")}/> 
         </div>
       </div>
     </div>
