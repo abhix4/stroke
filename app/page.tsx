@@ -5,6 +5,7 @@ import HowToUse from "@/components/how-to-use";
 import Navbar from "@/components/navbar";
 import Preview from "@/components/svgs/preview";
 import TryNow from "@/components/svgs/try-now";
+import Image from "next/image";
 
 
 export default function Page(){
@@ -17,7 +18,10 @@ export default function Page(){
         }}
     >
       <Navbar/>
-     <h1 className="text-4xl md:text-6xl text-center mt-14 md:mt-28 text-[#FCFFFF] font-semibold">Animate SVGs.
+        <div className="flex justify-center mt-14 md:mt-28">
+            <a href="https://www.producthunt.com/products/stroke?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-stroke" target="_blank" rel="noopener noreferrer"><Image alt="Stroke - Animate SVGs. Beautifully. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1064890&amp;theme=light&amp;t=1768906926985"/></a>
+        </div>
+     <h1 className="text-4xl md:text-6xl text-center mt-8 md:mt-16 text-[#FCFFFF] font-semibold">Animate SVGs.
             <br />
       Beautifully.
       </h1>
