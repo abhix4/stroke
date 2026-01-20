@@ -9,7 +9,7 @@ type Point = { x: number; y: number };
 
 export default function SignatureCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  const [replayKey, setReplayKey] = useState(0)
   const drawing = useRef(false);
   const points = useRef<Point[]>([]);
   const strokes = useRef<Point[][]>([]);
@@ -122,7 +122,7 @@ export default function SignatureCanvas() {
       
     //   navigator.clipboard.writeText(svgString);
     //   setSvgPaths(paths);
-
+    setReplayKey(key => key+1)
     setSvgPaths(paths);
   };
 
@@ -146,6 +146,9 @@ export default function SignatureCanvas() {
     },2000)
   },[codeCopied])
 
+  const updateKey = () => {
+      setReplayKey(key => key+1)
+  }
 
 
   return (
@@ -181,8 +184,11 @@ export default function SignatureCanvas() {
       
 
         <div className='bg-neutral-50 rounded-lg relative '>
-          <button className='absolute right-4 top-4 bg-[#FEF102] p-2 text-sm rounded-lg shadow-sm shadow-black/10 ring-1 ring-black/10 cursor-pointer active:scale-99' onClick={copyFullComponent}>{codeCopied ? "code copied": "copy code"}</button>
-          <SvgAnimated animatedPaths={svgPaths} key={svgPaths.join("|")}/> 
+         <div className='absolute right-4 top-4 flex items-center justify-center gap-2'> 
+           <button className='bg-[#FEF102] p-2 text-sm rounded-lg shadow-sm shadow-black/10 ring-1 ring-black/10 cursor-pointer active:scale-99' title='replay' onClick={updateKey}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-refresh-ccw-icon lucide-refresh-ccw"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></button>
+          <button className=' bg-[#FEF102] p-2 text-sm rounded-lg shadow-sm shadow-black/10 ring-1 ring-black/10 cursor-pointer active:scale-99' title='copy code' onClick={copyFullComponent}>{codeCopied ? "code copied": "copy code"}</button>
+         </div>
+          <SvgAnimated animatedPaths={svgPaths} key={replayKey}/> 
         </div>
       </div>
     </div>
